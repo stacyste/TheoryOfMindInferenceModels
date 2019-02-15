@@ -1,7 +1,7 @@
 import itertools
 import numpy as np 
 
-class SetupTransition(object):
+class SetupEpsilonTransition(object):
     def __init__(self,epsilon):
         self.stateSet = None
         self.actionSet = None
