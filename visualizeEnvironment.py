@@ -28,6 +28,7 @@ def visualizeEnvironment(gridWidth, gridHeight, states, goalStates, trajectory =
     plt.show()
     
 levelsReward  = ["state", "action", "next state", "reward"]
+levelsSAReward = ["state", "action", "reward"]
 levelsTransition  = ["state", "action", "next state", "probability"]
 
 def viewDictionaryStructure(d, levels, indent=0):
