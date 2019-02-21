@@ -3,7 +3,6 @@ Class: Stat232C
 Project 1: Bayesian inference
 Name: 
 Date: January 2019
-
 """
 
 def getPosterior(priorOfA, priorOfB, likelihood):
