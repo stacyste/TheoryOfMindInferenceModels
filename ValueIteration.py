@@ -39,3 +39,40 @@ class BoltzmannValueIteration(object):
         totalSum = sum(unnormalizedDictionary.values())
         normalizedDictionary = {originalKey: val/totalSum for originalKey, val in unnormalizedDictionary.items()}
         return(normalizedDictionary)
+
+class DeterministicValueIteration(object):
+    def __init__(self, transitionTable, rewardTable, valueTable, convergenceTolerance, discountingFactor = .99):
+        self.transitionTable = transitionTable
+        self.rewardTable  = rewardTable
+        self.valueTable = valueTable
+        self.convergenceTolerance = convergenceTolerance
+        self.gamma = discountingFactor
+
+    def __call__(self):
+        theta = self.convergenceTolerance*100
+        while(theta > self.convergenceTolerance):
+            theta = 0
+            for state, actionDict in self.transitionTable.items():
+
+                valueOfStateAtTimeT = self.valueTable[state]
+                self.valueTable[state] = max([self.getQValue(state, action) for action in actionDict.keys()])
+                theta = max(theta, abs(valueOfStateAtTimeT-self.valueTable[state]))
+
+        policyTable = {state:self.getStatePolicy(state) for state in self.transitionTable.keys()}
+        return([self.valueTable, policyTable])
+    
+    def getStatePolicy(self, state):
+        roundingThreshold = 5
+
+        maxQValue = max([round(self.getQValue(state, action),roundingThreshold) for action in self.transitionTable[state].keys()])
+        optimalActionSet = [action for action in self.transitionTable[state].keys() \
+                            if round(self.getQValue(state, action),roundingThreshold) == maxQValue]
+        statePolicy = {action: 1/(len(optimalActionSet)) for action in optimalActionSet}
+        return(statePolicy)
+        
+    def getQValue(self, state, action):
+        nextStatesQ = [prob*(self.rewardTable[state][action][nextState] \
+                             + self.gamma*self.valueTable[nextState]) \
+                      for nextState, prob in self.transitionTable[state][action].items()]
+        qValue = sum(nextStatesQ)
+        return(qValue)

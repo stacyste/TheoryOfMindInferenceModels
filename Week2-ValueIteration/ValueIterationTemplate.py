@@ -38,6 +38,11 @@ def main():
 	convergenceTolerance = 10e-7
 	gamma = .9
 
+	performValueIteration = ValueIteration(transitionTableDet, rewardTableDet, valueTableDet, convergenceTolerance, gamma)
+	optimalValuesDeterminsitic, policyTableDet = performValueIteration()
+	print(optimalValuesDeterminsitic)
+	print(policyTableDet)
+
 
 	"""
 	Example 2: Probabilistic Transition
@@ -48,23 +53,6 @@ def main():
 	valueTable = {(0, 0): 0,(0, 1): 0,(0, 2): 0,(0, 3): 0,(1, 0): 0,(1, 1): 0,(1, 2): 0,(1, 3): 0,(2, 0): 0,(2, 1): 0,(2, 2): 0,(2, 3): 0,(3, 0): 0,(3, 1): 0,(3, 2): 0,(3, 3): 0}
 	convergenceTolerance = 10e-7
 	gamma = .9
-
-
-	"""
-	Uncomment to view transition or reward structure in a readable format
-
-	levelsReward  = ["state", "action", "next state", "reward"]
-	levelsTransition  = ["state", "action", "next state", "probability"]
-
-	viewDictionaryStructure(transition, levelsTransition)
-	viewDictionaryStructure(reward, levelsReward)
-	"""
-
-	performValueIteration = ValueIteration(transitionTableDet, rewardTableDet, valueTableDet, convergenceTolerance, gamma)
-	optimalValuesDeterminsitic, policyTableDet = performValueIteration()
-	print(optimalValuesDeterminsitic)
-	print(policyTableDet)
-
 
 	performValueIteration = ValueIteration(transitionTable, rewardTable, valueTable, convergenceTolerance, gamma)
 	optimalValuesDeterminsitic, policyTable = performValueIteration()
