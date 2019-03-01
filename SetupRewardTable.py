@@ -77,8 +77,11 @@ class SetupStateActionRewardWithUserSpecifiedCosts(object):
         moveCost = self.getMoveCost(action)
         
         if state in self.specialStates:
+            #print("SpecialState")
             if type(stateRewards) is int:
+                #print("Int State reward", stateRewards)
                 return(stateRewards)
+            #print("Reward: ", stateRewards[state]+moveCost)
             return(stateRewards[state]+moveCost)
         return(moveCost)
     
