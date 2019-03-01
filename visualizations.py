@@ -6,10 +6,8 @@ from matplotlib.patches import Rectangle
 
 def viewDictionaryStructure(d, dictionaryType, indent=0):
     if dictionaryType == "t":
-        print("transition")
         levels  = ["state", "action", "next state", "probability"]
     if dictionaryType == "r":
-        print("reward")
         levels  = ["state", "action", "next state", "reward"]
 
     for key, value in d.items():
@@ -36,7 +34,7 @@ def visualizeEnvironmentByState(states, goalStates = [], trapStates = [], trajec
     maximumx, maximumy = [max(coord) for coord in zip(*states)]
     
     plt.rcParams["figure.figsize"] = [(maximumx-minimumx)*gridScale, (maximumy-minimumy)*gridScale]
-    ax = plt.gca(frameon=False, xticks = range(minimumx-1, maximumx+1), yticks = range(minimumy-1, maximumy+1))
+    ax = plt.gca(frameon=False, xticks = range(minimumx-1, maximumx+2), yticks = range(minimumy-1, maximumy+2))
 
     #gridline drawing
     for (statex, statey) in states:
@@ -138,7 +136,7 @@ def visualizePolicyOfBeliefByState(states, policy, belief, goalStates = [], trap
     maximumx, maximumy = [max(coord) for coord in zip(*states)]
     
     plt.rcParams["figure.figsize"] = [(maximumx-minimumx)*gridScale, (maximumy-minimumy)*gridScale]
-    ax = plt.gca(frameon=False, xticks = range(minimumx-1, maximumx+1), yticks = range(minimumy-1, maximumy+1))
+    ax = plt.gca(frameon=False, xticks = range(minimumx-1, maximumx+2), yticks = range(minimumy-1, maximumy+2))
 
     #gridline drawing
     for (statex, statey) in states:

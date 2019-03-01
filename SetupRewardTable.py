@@ -60,3 +60,33 @@ class SetupStateActionRewardTableWithDistanceMoveCost(object):
             actionDistance = sum([abs(action[i]) for i in range(len(action))])
             return(-actionDistance)
 
+
+class SetupStateActionRewardWithUserSpecifiedCosts(object):
+    def __init__(self, stateSet, actionSet, specialStates = []):
+        self.stateSet = stateSet
+        self.actionSet = actionSet
+        self.specialStates = specialStates
+
+    def __call__(self, stateRewards = 10):
+        rewardTable = {state:{action: self.applyRewardFunction(state, action, stateRewards) \
+                              for action in self.actionSet} \
+                       for state in self.stateSet}
+        return(rewardTable)
+
+    def applyRewardFunction(self, state, action, stateRewards):
+        moveCost = self.getMoveCost(action)
+        
+        if state in self.specialStates:
+            if type(stateRewards) is int:
+                return(stateRewards)
+            return(stateRewards[state]+moveCost)
+        return(moveCost)
+    
+    def getMoveCost(self, action):
+        if action == (0,0):
+            return(-.1)
+        else:
+            actionDistance = sum([abs(action[i]) for i in range(len(action))])
+            return(-actionDistance)
+
+

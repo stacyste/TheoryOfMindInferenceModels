@@ -53,9 +53,7 @@ class SetupDeterministicTransitionByStateSet(object):
         self.stateSet = stateSet
         self.actionSet = actionSet
 
-    def __call__(self, randomSeed = None):
-        if randomSeed:
-            np.random.seed(randomSeed)
+    def __call__(self):
         transitionTable = {state: self.getStateTransition(state) for state in self.stateSet}
         return(transitionTable) 
 
@@ -74,6 +72,33 @@ class SetupDeterministicTransitionByStateSet(object):
             return(potentialNextState)
         return(state) 
 
+class SetupEpsilonTransitionByStateSet(object):
+    def __init__(self,stateSet, actionSet):
+        self.stateSet = stateSet
+        self.actionSet = actionSet
+
+    def __call__(self, epsilon):
+        transitionTable = {state: self.getStateTransition(state, epsilon) for state in self.stateSet}
+        return(transitionTable) 
+
+    def getStateTransition(self, state, epsilon):
+        actionTransitionDistribution = {action: self.getStateActionTransition(state, action, epsilon) for action in self.actionSet}
+        return(actionTransitionDistribution)
+    
+    def getStateActionTransition(self, currentState, action, epsilon):
+        nextState = self.getNextState(currentState, action)
+        if currentState == nextState:
+            transitionDistribution = {nextState: 1}
+        else:
+            transitionDistribution = {nextState: 1-epsilon, currentState: epsilon}
+        return(transitionDistribution)
+
+    
+    def getNextState(self, state, action):
+        potentialNextState = tuple([state[i] + action[i] for i in range(len(state))])
+        if potentialNextState in self.stateSet:
+            return(potentialNextState)
+        return(state) 
 
 """
 Creates a stochastic transition table for a set of states and actions. The probability of reacing the typical next state will be initialized by nextStateProb, and 
@@ -96,7 +121,10 @@ class SetupSlipperyTransitionByGrid(object):
         self.stateSet = list(itertools.product(range(self.gridWidth), range(self.gridHeight)))
         self.actionSet = actionSet
 
-    def __call__(self, trueNextStateProbability = .7, numberOfSlipDirections = 3):
+    def __call__(self, trueNextStateProbability = .7, numberOfSlipDirections = 3, randomSeed=None):
+        if randomSeed:
+            np.random.seed(randomSeed)
+
         transitionTable = {state: self.getStateTransition(state, trueNextStateProbability, numberOfSlipDirections) for state in self.stateSet}
         return(transitionTable) 
 
