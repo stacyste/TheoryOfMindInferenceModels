@@ -135,3 +135,70 @@ class SetupRewardBeliefTable(object):
 def constructGoalStateRewards(truck1truck2,  preference, truckLocations = [(0,0), (4,3)], preferenceRewards = [100, 75, 50]):
     goalPreferences = {location : preferenceRewards[preference.index(truck)] for location, truck in zip(truckLocations, truck1truck2)}
     return(goalPreferences)
+
+def samplePathToGoal(position, belief, policy, transition, goals):
+    trajectory = [(position, belief)]
+
+    while position not in goals:
+        #take action probabilisitically
+        actions = list(policy[(position, belief)].keys())
+        probOfAction = [policy[(position, belief)][action] for action in actions]
+        actionIndex = np.random.choice(len(actions), 1, p = probOfAction)
+        sampledAction = actions[int(actionIndex)]
+        
+        #get new position and belief
+        newPosition = list(transition[(position, belief)][sampledAction].keys())[0][0]
+        possibleBeliefs = list(transition[(position, belief)][sampledAction].keys())
+        sampledNewBeliefIndex = int(np.random.choice(len(possibleBeliefs), 1))
+        
+        #update to new belief/position and add to trajectory
+        belief = possibleBeliefs[sampledNewBeliefIndex][1]
+        position = newPosition
+        trajectory.append((position, belief))
+    return(trajectory)
+
+def inferBelief(positionTrajectory, world, initialBelief = (.17,.17,.17,.17,.17,.17)):
+    positionsTruck1Visible = [(0, 0),(1, 3),(3, 0),(0, 2),(2, 1),(1, 0),(0, 3),(4, 0),(0, 1),(1, 2),(3, 1),(2, 0),(4, 1),(1, 1)]
+    positionsTruck2Visible = [(0,3), (1,3), (2,3), (3,3), (4,3)] 
+    
+    stateTrajectory = [(positionTrajectory[0], initialBelief)]
+    beliefAtTimeT = initialBelief
+    for position in positionTrajectory[1:]:
+        observation = ["", ""]
+        if position in positionsTruck1Visible:
+            observation[0] = world[0] 
+        if position in positionsTruck2Visible:
+            observation[1] = world[1]
+        beliefAtTimeT = createBelief(beliefAtTimeT, tuple(observation))   
+        stateTrajectory.append((position, beliefAtTimeT))
+    return(stateTrajectory)
+
+class PerformDesireInference(object):
+    def __init__(self, transitionTable, desirePolicies, desirePriors, stateTrajectory):
+        self.transitionTable = transitionTable
+        self.desirePolicies  = desirePolicies
+        self.desirePriors = desirePriors
+        self.stateTrajectory = stateTrajectory
+
+    def __call__(self):
+        posterior = self.getSequenceOfBeliefProbabilities()*np.array(self.desirePriors)        
+        row_sums = posterior.sum(axis=1, keepdims=True)
+        normalizedPosterior = posterior / row_sums
+        return(normalizedPosterior)
+        
+    def getNextStateProbability(self, state, nextState, policy):
+        possibleActionsToNextState = [action for action in self.transitionTable[state] \
+                                      if nextState in self.transitionTable[state][action]]
+
+        probNextState = sum([self.transitionTable[state][action][nextState]*policy[state][action] \
+                             for action in possibleActionsToNextState])
+        return(probNextState)
+    
+    def getSequenceOfBeliefProbabilities(self):
+        probNextState = [self.desirePriors]
+        for t, state in enumerate(self.stateTrajectory[:-1]):
+            nextState = self.stateTrajectory[t+1]
+            probNextState.append([self.getNextStateProbability(state, nextState, desirePolicy) \
+                         for desirePolicy in self.desirePolicies])
+        observedStateProbs = np.cumprod(np.array(probNextState), axis=0)
+        return(observedStateProbs)
