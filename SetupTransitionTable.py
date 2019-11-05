@@ -72,6 +72,77 @@ class SetupDeterministicTransitionByStateSet(object):
             return(potentialNextState)
         return(state) 
 
+
+"""
+Creates a determinsitic transition table for two agents given a set of states and actions. 
+If the action takes the agent off the board, the action should result in the next state being the same 
+as the current state. If the two agents collide on the board, one agent will stay and the other will
+move. the next state will be uniformly divided between these options.
+This assumes that the two agents have the same action set and state space.
+
+Inputs:
+    state set - list of states as tuple of tuples (single agent)
+    action set - list of actions as tuple of tuples (single agent)
+Output: nested dictionary {state:{action:nextState:probability}} 
+where there is every joint state and joint action pair and only the next states that 
+result in a non-zero probability
+"""
+
+class SetupDeterministicTransitionByStateSet2Agent(object):
+    def __init__(self, stateSet, actionSet):
+        self.stateSet = stateSet
+        self.jointStateSet = [(s1, s2) for s1, s2 in itertools.product(stateSet, stateSet) if s1 != s2]
+        self.actionSet = actionSet
+        self.jointActionSet = list(itertools.product(actionSet, actionSet))
+
+    def __call__(self):
+        transitionTable = {state: self.getStateTransition(state) for state in self.jointStateSet}
+        return(transitionTable) 
+
+    def getStateTransition(self, state):
+        actionTransitionDistribution = {action: self.getStateActionTransition(state, action) for action in self.jointActionSet}
+        return(actionTransitionDistribution)
+    
+    def getStateActionTransition(self, currentState, action):
+        transitionDistribution = self.getTransitionDistribution(currentState, action)
+        return(transitionDistribution)
+
+    def getTransitionDistribution(self, state, action):
+        potentialNextState = tuple([self.addTuples(agentS, agentA) for agentS, agentA in zip(state, action)])
+        agent1NextState = potentialNextState[0]
+        agent2NextState = potentialNextState[1]
+        
+        #both agents have a valid move
+        if potentialNextState in self.jointStateSet: 
+            return({potentialNextState:1.0})
+        
+        #valid move but collision
+        elif agent1NextState == agent2NextState and (agent1NextState in self.stateSet): 
+            #in cases of valid move but collision, uniformly sample who moves
+            agent1Moves = (agent1NextState, state[1])
+            agent2Moves= (state[0], agent2NextState)
+            return({agent1Moves: .5, agent2Moves: .5})
+        
+        #agent 1 makes a valid move but agent 2 doesnt
+        elif agent1NextState in self.stateSet and agent2NextState not in self.stateSet: 
+            nextState = (agent1NextState, state[1])
+            return({nextState : 1.0})
+        
+        #agent 2 makes a valid move but agent 1 doesnt
+        elif agent2NextState in self.stateSet and agent1NextState not in self.stateSet:
+            nextState = (state[0], agent2NextState)
+            return({nextState: 1.0})
+        
+        #both moves are invalid
+        else: 
+            return({state : 1.0})
+    
+    def addTuples(self, tuple1, tuple2):
+        lengthOfShorterTuple = min(len(tuple1), len(tuple2))
+        summedTuple = tuple([tuple1[i] + tuple2[i] for i in range(lengthOfShorterTuple)])
+        return(summedTuple)
+
+
 class SetupEpsilonTransitionByStateSet(object):
     def __init__(self,stateSet, actionSet):
         self.stateSet = stateSet
