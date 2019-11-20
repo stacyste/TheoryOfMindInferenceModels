@@ -37,7 +37,7 @@ class BoltzmannValueIteration(object):
         normalizedPolicy = self.normalizeDictionaryValues(statePolicy)
         return(normalizedPolicy)
 
-    def getBoltzmannPolicyMathOverflowPossible(self, state):
+    def getBoltzmannPolicy_NotAdjustedForMathOverflows(self, state):
         statePolicy = {action: math.exp(self.beta*self.getQValue(state, action)) for action in self.transitionTable[state].keys()}
         normalizedPolicy = self.normalizeDictionaryValues(statePolicy)
         return(normalizedPolicy)

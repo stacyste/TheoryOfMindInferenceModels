@@ -30,7 +30,6 @@ class SetupRewardTableWithDistanceMoveCost(object):
             return(-actionDistance)
 
 
-
 class SetupStateActionRewardTableWithDistanceMoveCost(object):
     def __init__(self, stateSet, actionSet, goalStates = [], trapStates = []):
         self.stateSet = stateSet
