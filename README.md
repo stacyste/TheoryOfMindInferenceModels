@@ -21,14 +21,14 @@ There are a set of fundamental tools that we can draw from engineering, decision
 type of problem. One such tool is a Markov Decision Process (MDP). MDPs are defined by the tuple ![equation](https://latex.codecogs.com/gif.latex?\langle&space;\mathcal{S},&space;\mathcal{A},&space;\mathcal{T},&space;\mathcal{R}&space;,&space;\gamma&space;\rangle)
 A set of states, actions, a transition function describing the dynamics of the environment, a reward function giving some numerical
 value to each state or state-action pair in the world, and a discounting factor representing how much future rewards are worth respectively. This formulation allows us to model an agent's decision making process
- given a goal in an environment in discrete time.
+ given a goal in an environment in discrete time. Chapters 3 and 4 of Reinforcement Learning: An Introduction<sup id="sb">[4](#sb)</sup> provide an in-depth description of dynamic programming solutions to MDPs.
  
  The second major tool for ToM models is Bayesian Inference. While MDPs allow a forward model of decision making, it is generated directly
  from the underlying mental states. Recall that these are not actually observable. Baye's Rule allows us to reverse this problem and perform
  inverse planning by looking at the set of possible mental states and evaluating which is most likely using the observable actions in the environment.
  
  Using these tools, we are able to build models infering latent mental states and extend these models to capture a variety of situations (e.g. partially
- observable environments where planning is done by a Partially Observable MDP or POMDP<sup id="a4">[4](#f4)</sup>).
+ observable environments where planning is done by a Partially Observable MDP or POMDP<sup id="a4">[5](#f4)</sup>).
 
 ## Included Demos
 In this repository are the implemented models and computational tools needed to answer questions about how to infer what others' beliefs, desires, and
@@ -39,10 +39,10 @@ computer science, and cognitive psychology and come with a set of visualizations
 In more detail: 
 - [Demo 1](Demo1-BayesianInference/Demo_DiscreteBayesianInference.ipynb): Implementation of Bayesian Inference; how to find the posterior of a distribution from a prior and likelihood  
 - [Demo 2](Demo2-ValueIteration/Demo_ValueIterationWithVisualizations.ipynb): Value Iteration; a model for planning of the best actions to take in each possible scenario; a means of solving MDPs  
-- [Demo 3](Demo3-InversePlanning/Demo_GoalInference.ipynb): Goal Inference<sup id="a5">[5](#f5)</sup>; a model to infer goals across time from observed actions; combines value iteration for MDPs and Bayesian inference  
+- [Demo 3](Demo3-InversePlanning/Demo_GoalInference.ipynb): Goal Inference<sup id="a5">[6](#f5)</sup>; a model to infer goals across time from observed actions; combines value iteration for MDPs and Bayesian inference  
 - [Demo 4](): Signaling Policies; a model of how to act in ways that communicate a goal to others; combines value iteration for MDPs and likelihood ratios  
 - [Demo 5](): POMDPs Heaven and Hell; a model of how to act in partially observable environments; exhibits information seeking behavior  
-- [Demo 6](): POMDPs Food Truck <sup id="a6">[6](#f6)</sup>; a model to jointly infer beliefs and desires (specifically preferences) of others in a partially observable environment  
+- [Demo 6](): POMDPs Food Truck <sup id="a6">[7](#f6)</sup>; a model to jointly infer beliefs and desires (specifically preferences) of others in a partially observable environment  
 
 
 
@@ -58,6 +58,9 @@ Proceedings of the National Academy of Sciences, 105(13), 5012-5015.[↩](#a2)
 <b id="f3">1</b> Jara-Ettinger, J., Tenenbaum, J. B., & Schulz, L. E. (2015). 
 [Not so innocent: Toddlers’ inferences about costs and culpability.](https://journals.sagepub.com/doi/full/10.1177/0956797615572806?casa_token=Aas0QELkJWAAAAAA%3A6DuZMb-Fv57tky75ovRtY5TVzNv8tg7MT1A-wxAIk4K7EulWnfBqlAp76RVbrinrcnHUd1YKoC0z)
 Psychological science, 26(5), 633-640. [↩](#a3)
+
+<b id="sb">1</b> Sutton, R. S., & Barto, A. G. (2018). [Reinforcement learning: An introduction.](https://web.stanford.edu/class/psych209/Readings/SuttonBartoIPRLBook2ndEd.pdf)
+MIT press.[↩](#sb)
 
 <b id="f4">1</b> Kaelbling, L. P., Littman, M. L., & Cassandra, A. R. (1998). 
 [Planning and acting in partially observable stochastic domains.](https://www.sciencedirect.com/science/article/pii/S000437029800023X) Artificial intelligence, 101(1-2), 99-134. [↩](#a4)
