@@ -1,6 +1,10 @@
 import numpy as np
 import itertools
+import matplotlib.pyplot as plt
+from matplotlib.patches import Rectangle
 
+
+#Belief Transition funtion
 class SetupBeliefTransition(object):
     def __init__(self, positionSet, beliefSet, actionSet):
         self.positionSet = positionSet
@@ -27,6 +31,7 @@ class SetupBeliefTransition(object):
             return(potentialNextState)
         return(position) 
 
+#Helper functions for belief transition
 def updateBelief(newPosition, belief):
     positionsTruck1Visible = [(0, 0),(1, 3),(3, 0),(0, 2),(2, 1),(1, 0),(0, 3),(4, 0),(0, 1),(1, 2),(3, 1),(2, 0),(4, 1),(1, 1)]
     positionsTruck2Visible = [(0,3), (1,3), (2,3), (3,3), (4,3)] 
@@ -114,6 +119,7 @@ def convertBeliefToTruck(belief):
         beliefTruck[1] = truckNames[int(np.argwhere(colSums == 1))]
     return(tuple(beliefTruck))
 
+#Setup reward function
 class SetupRewardBeliefTable(object):
     def __init__(self, positionSet, beliefSet, actionSet):
         self.positionSet = positionSet
@@ -136,6 +142,7 @@ def constructGoalStateRewards(truck1truck2,  preference, truckLocations = [(0,0)
     goalPreferences = {location : preferenceRewards[preference.index(truck)] for location, truck in zip(truckLocations, truck1truck2)}
     return(goalPreferences)
 
+#Trajectory sampling
 def samplePathToGoal(position, belief, policy, transition, goals):
     trajectory = [(position, belief)]
 
@@ -157,6 +164,7 @@ def samplePathToGoal(position, belief, policy, transition, goals):
         trajectory.append((position, belief))
     return(trajectory)
 
+#Inference functions
 def inferBelief(positionTrajectory, world, initialBelief = (.17,.17,.17,.17,.17,.17)):
     positionsTruck1Visible = [(0, 0),(1, 3),(3, 0),(0, 2),(2, 1),(1, 0),(0, 3),(4, 0),(0, 1),(1, 2),(3, 1),(2, 0),(4, 1),(1, 1)]
     positionsTruck2Visible = [(0,3), (1,3), (2,3), (3,3), (4,3)] 
@@ -202,3 +210,63 @@ class PerformDesireInference(object):
                          for desirePolicy in self.desirePolicies])
         observedStateProbs = np.cumprod(np.array(probNextState), axis=0)
         return(observedStateProbs)
+
+# Visualization Tool
+"""
+    Visualizes policy of a given belief state where the input is a set of states to visualize instead of a grid - can take in irregular state spaces.
+    Inputs: 
+        states: list of state position tuples (x,y)
+        policy: probability of an action given the state s is of form (positionx, positiony), belief
+        belief: the belief state for which to visualize the policy
+        goalStates: list of possible goals 
+        trapStates: list of obstacle or trap spaces
+        trajectory: list of states an agent travels through
+"""
+def visualizePolicyOfBeliefByState_FoodTruck(states, policy, belief, goalStates = [], trapStates = [], trajectory = [], arrowScale = .3, orderedWorlds = ['KL', 'KM', 'LK', 'LM', 'MK', 'ML']):
+    gridAdjust = .5
+    gridScale = 1.5
+    
+    minimumx, minimumy = [min(coord) for coord in zip(*states)]
+    maximumx, maximumy = [max(coord) for coord in zip(*states)]
+    
+    plt.rcParams["figure.figsize"] = [(maximumx-minimumx)*gridScale, (maximumy-minimumy)*gridScale]
+    ax = plt.gca(frameon=False, xticks = range(minimumx-1, maximumx+2), yticks = range(minimumy-1, maximumy+2))
+
+    #gridline drawing
+    for (statex, statey) in states:
+        ax.add_patch(Rectangle((statex-gridAdjust, statey-gridAdjust), 1, 1, fill=False, color='black', alpha=1))
+
+    #goal and trap coloring 
+    for (goalx,goaly) in goalStates:
+        ax.add_patch(Rectangle((goalx-gridAdjust, goaly-gridAdjust), 1, 1, fill=True, color='green', alpha=.1))
+    for (trapx, trapy) in trapStates:
+        ax.add_patch(Rectangle((trapx-gridAdjust, trapy-gridAdjust), 1, 1, fill=True, color='red', alpha=.1))
+
+    #trajectory path coloring
+    for indx, (statex, statey) in enumerate(trajectory):
+        ax.add_patch(Rectangle((statex-gridAdjust, statey-gridAdjust), 1, 1, fill=True, color='blue', alpha=.1))
+        ax.text(statex-.1, statey-.1, str(indx), fontsize = 25)
+    
+    #Truck Label for Belief
+    consistentBeliefs = [world for b, world in zip(belief, orderedWorlds) if b > 0]
+    truck1 = [z[0] for z in consistentBeliefs]
+    truck2 = [z[1] for z in consistentBeliefs]
+    
+    if all(x == truck1[0] for x in truck1):
+        #label truck 1
+        ax.text(0-.15, 0-.15, truck1[0], fontsize = 25)
+    else: 
+        ax.text(0-.15, 0-.15, "?", fontsize = 25)
+    
+    if all(x == truck2[0] for x in truck2):
+        #label truck 2
+        ax.text(4-.15, 3-.15, truck2[0], fontsize = 25)
+    else: 
+        ax.text(4-.15, 3-.15, "?", fontsize = 25)
+
+    #labeled values
+    for ((statex, statey), b) in policy.keys():
+        if b == belief:
+            for (actionx, actiony), actionProb in policy[((statex, statey), b)].items():
+                plt.arrow(statex, statey, actionx*actionProb*arrowScale, actiony*actionProb*arrowScale, head_width=0.05*actionProb, head_length=0.1*actionProb)    
+    plt.show()
