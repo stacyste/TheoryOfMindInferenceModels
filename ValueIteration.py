@@ -23,14 +23,15 @@ class BoltzmannValueIteration(object):
 
         return([self.valueTable, policyTable])
     
-    def getBoltzmannPolicy(self, state):
+    def getBoltzmannPolicy(self, state, printStatments = False):
         exponents = [self.beta*self.getQValue(state, action) for action in self.transitionTable[state].keys()]
         actions = [action for action in self.transitionTable[state].keys()]
 
         # Scale to [0,700] if there are exponents larger than 700
         if len([exponent for exponent in exponents if exponent>700])>0:
-            print("scaling exponents to [0,700]... On State:")
-            print(state)
+            if printStatments:
+                print("scaling exponents to [0,700]... On State:")
+                print(state)
             exponents = [700*(exponent/max(exponents)) for exponent in exponents]
 
         statePolicy = {action: math.exp(exponent) for exponent, action in zip(exponents,actions)}
