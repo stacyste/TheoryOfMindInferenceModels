@@ -2,7 +2,7 @@
 
 ## Introduction
 Humans are able to make incredibly rich inferences about others from very little data, 
-even at a young age <sup id="a1">[1](#f1)</sup>,<sup id="a2">[2](#f2)</sup>,<sup id="a3">[3](#f3)</sup>. These behavioral predictions and explanations stem from understanding others in terms of their 
+even at a young age <sup id="a1">[1 ](#f1)</sup><sup id="a2">[2 ](#f2)</sup><sup id="a3">[3](#f3)</sup>. These behavioral predictions and explanations stem from understanding others in terms of their 
 underlying mental states including beliefs, desires, and intentions. This notion, called Theory of Mind (ToM), gets much of its power
 from the assumption that people behave rationally with respect to those underlying mental states. Rational behavior implies that 
 individuals act in efficient and parsimoniuos ways to achieve their underlying goals given constraints of the environment.
@@ -37,12 +37,12 @@ graduate course [Cognitive Artificial Intelligence](https://sa.ucla.edu/ro/Publi
 computer science, and cognitive psychology and come with a set of visualizations to create an intuitive understanding of results.
 
 In more detail: 
-- Demo 1: Implementation of Bayesian Inference; how to find the posterior of a distribution from a prior and likelihood  
-- Demo 2: Value Iteration; a model for planning of the best actions to take in each possible scenario; a means of solving MDPs  
-- Demo 3: Goal Inference<sup id="a5">[5](#f5)</sup>; a model to infer goals across time from observed actions; combines value iteration for MDPs and Bayesian inference  
-- Demo 4: Signaling Policies; a model of how to act in ways that communicate a goal to others; combines value iteration for MDPs and likelihood ratios  
-- Demo 5: POMDPs Heaven and Hell; a model of how to act in partially observable environments; exhibits information seeking behavior  
-- Demo 6: POMDPs Food Truck <sup id="a6">[6](#f6)</sup>; a model to jointly infer beliefs and desires (specifically preferences) of others in a partially observable environment  
+- [Demo 1](Demo1-BayesianInference/Demo_DiscreteBayesianInference.ipynb): Implementation of Bayesian Inference; how to find the posterior of a distribution from a prior and likelihood  
+- [Demo 2](Demo2-ValueIteration/Demo_ValueIterationWithVisualizations.ipynb): Value Iteration; a model for planning of the best actions to take in each possible scenario; a means of solving MDPs  
+- [Demo 3](Demo3-InversePlanning/Demo_GoalInference.ipynb): Goal Inference<sup id="a5">[5](#f5)</sup>; a model to infer goals across time from observed actions; combines value iteration for MDPs and Bayesian inference  
+- [Demo 4](): Signaling Policies; a model of how to act in ways that communicate a goal to others; combines value iteration for MDPs and likelihood ratios  
+- [Demo 5](): POMDPs Heaven and Hell; a model of how to act in partially observable environments; exhibits information seeking behavior  
+- [Demo 6](): POMDPs Food Truck <sup id="a6">[6](#f6)</sup>; a model to jointly infer beliefs and desires (specifically preferences) of others in a partially observable environment  
 
 
 
