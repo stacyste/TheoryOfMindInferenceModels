@@ -51,24 +51,24 @@ In more detail:
 [Children’s understanding of the costs and rewards underlying rational action.](https://www.sciencedirect.com/science/article/pii/S0010027715000566) 
 Cognition, 140, 14-23 [↩](#a1)
 
-<b id="f2">1</b> Xu, F., & Garcia, V. (2008). 
+<b id="f2">2</b> Xu, F., & Garcia, V. (2008). 
 [Intuitive statistics by 8-month-old infants.](https://www.pnas.org/content/105/13/5012.short) 
 Proceedings of the National Academy of Sciences, 105(13), 5012-5015.[↩](#a2)
 
-<b id="f3">1</b> Jara-Ettinger, J., Tenenbaum, J. B., & Schulz, L. E. (2015). 
+<b id="f3">3</b> Jara-Ettinger, J., Tenenbaum, J. B., & Schulz, L. E. (2015). 
 [Not so innocent: Toddlers’ inferences about costs and culpability.](https://journals.sagepub.com/doi/full/10.1177/0956797615572806?casa_token=Aas0QELkJWAAAAAA%3A6DuZMb-Fv57tky75ovRtY5TVzNv8tg7MT1A-wxAIk4K7EulWnfBqlAp76RVbrinrcnHUd1YKoC0z)
 Psychological science, 26(5), 633-640. [↩](#a3)
 
-<b id="sb">1</b> Sutton, R. S., & Barto, A. G. (2018). [Reinforcement learning: An introduction.](https://web.stanford.edu/class/psych209/Readings/SuttonBartoIPRLBook2ndEd.pdf)
+<b id="sb">4</b> Sutton, R. S., & Barto, A. G. (2018). [Reinforcement learning: An introduction.](https://web.stanford.edu/class/psych209/Readings/SuttonBartoIPRLBook2ndEd.pdf)
 MIT press.[↩](#sb)
 
-<b id="f4">1</b> Kaelbling, L. P., Littman, M. L., & Cassandra, A. R. (1998). 
+<b id="f4">5</b> Kaelbling, L. P., Littman, M. L., & Cassandra, A. R. (1998). 
 [Planning and acting in partially observable stochastic domains.](https://www.sciencedirect.com/science/article/pii/S000437029800023X) Artificial intelligence, 101(1-2), 99-134. [↩](#a4)
 
-<b id="f5">1</b>
+<b id="f5">6</b>
 Baker, C. L., Saxe, R., & Tenenbaum, J. B. (2009). 
 [Action understanding as inverse planning.](https://www.sciencedirect.com/science/article/pii/S0010027709001607)
 Cognition, 113(3), 329-349.[↩](#a5)
 
-<b id="f6">1</b>
+<b id="f6">7</b>
 Baker, C. L., Jara-Ettinger, J., Saxe, R., & Tenenbaum, J. B. (2017). [Rational quantitative attribution of beliefs, desires and percepts in human mentalizing.](https://www.nature.com/articles/s41562-017-0064) Nature Human Behaviour, 1(4), 0064. [↩](#a6)
