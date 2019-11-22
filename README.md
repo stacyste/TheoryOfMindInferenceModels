@@ -40,9 +40,9 @@ In more detail:
 - [Demo 1](Demo1-BayesianInference/Demo_DiscreteBayesianInference.ipynb): Implementation of Bayesian Inference; how to find the posterior of a distribution from a prior and likelihood  
 - [Demo 2](Demo2-ValueIteration/Demo_ValueIterationWithVisualizations.ipynb): Value Iteration; a model for planning of the best actions to take in each possible scenario; a means of solving MDPs  
 - [Demo 3](Demo3-InversePlanning/Demo_GoalInference.ipynb): Goal Inference<sup id="a5">[6](#f5)</sup>; a model to infer goals across time from observed actions; combines value iteration for MDPs and Bayesian inference  
-- [Demo 4](): Signaling Policies; a model of how to act in ways that communicate a goal to others; combines value iteration for MDPs and likelihood ratios  
-- [Demo 5](): POMDPs Heaven and Hell; a model of how to act in partially observable environments; exhibits information seeking behavior  
-- [Demo 6](): POMDPs Food Truck <sup id="a6">[7](#f6)</sup>; a model to jointly infer beliefs and desires (specifically preferences) of others in a partially observable environment  
+- [Demo 4](Demo4-CooperativeSignaling/Demo_LikelihoodRatioReward.ipynb): Signaling Policies; a model of how to act in ways that communicate a goal to others; combines value iteration for MDPs and likelihood ratios  
+- [Demo 5](Demo5-POMDP/Demo_POMDPHeavenAndHell.ipynb): POMDPs Heaven and Hell; a model of how to act in partially observable environments; exhibits information seeking behavior  
+- [Demo 6](Demo6-POMDPBeliefsDesires/Demo_POMDPFoodTruckBeliefsDesires.ipynb): POMDPs Food Truck <sup id="a6">[7](#f6)</sup>; a model to jointly infer beliefs and desires (specifically preferences) of others in a partially observable environment  
 
 
 
